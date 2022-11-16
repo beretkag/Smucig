@@ -1,0 +1,46 @@
+<%- include('header') %>
+<div class="container">
+    <%- include('title') %>
+
+    <div class="row">
+        <aside class="col-md-4">
+            <h3>
+                <%= user.loggedUser %>
+            </h3>
+            <%- include('profilnav') %>
+        </aside>
+        <section class="col-md-8">
+            <form action="/users/profilmod" method="post" class="col-lg-8 col-xl-6">
+                <div class="col-12">
+                    <label for="newmail" class="form-label">E-mail cím</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" disabled name="newmail" value="<%= user.loggedUserMail %>" id="newmail">
+                        <div class="btn input-group-text configBtn" id="emailBtn">
+                            <i class="bi bi-pencil-square" id="emailEditIkon"></i>
+                            <i class="bi bi-x-circle d-none" id="emailCancel"></i>
+                        </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="col-12">
+                    <label for="newmname" class="form-label">Felhasználónév</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" disabled name="newname" value="<%= user.loggedUser %>" id="newname">
+                        <div class="btn input-group-text configBtn" id="nameBtn">
+                            <i class="bi bi-pencil-square" id="nameEditIkon"></i>
+                            <i class="bi bi-x-circle d-none" id="nameCancel"></i>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success mb-3">Profil módosítása</button>
+            </form>
+        </section>
+    </div>
+
+
+</div>
+
+<script src="../assets/js/filleres.js"></script>
+
+

@@ -61,7 +61,7 @@ main {
 }
 
 .menu li a:hover {
-    background-color: slategray;
+    background-color: #198754;
     color: white;
     padding-left: 30px;
     transition: padding 0.5s;
@@ -70,3 +70,48 @@ main {
 section {
     padding: 15px;
 }
+
+.maincontainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.card{
+    margin: 6vw;
+}
+
+.card-header{
+    text-align: center;
+    line-height: 150%;
+    font-size: 400%;
+    background-color: #c4c4c4;
+}
+
+.list-group-flush{
+    font-weight: bold;
+    font-size: larger;
+}
+
+.cardlink{
+    margin: 3px;
+    font-size: larger;
+    transition: 0.5s;
+
+}
+
+.cardlink:hover{
+    text-indent: 10px;
+    background-color: #198754 !important;
+}
+
+.configBtn{
+    background-color: #e9ecef;
+}
+
+.configBtn:hover{
+    background-color: #c4c4c4 !important;
+}
+

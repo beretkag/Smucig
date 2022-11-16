@@ -19,4 +19,45 @@ router.get('/reg', (req, res) => {
         res.send(data)
     });
 });
+
+router.get('/main', (req, res) => {
+    if (req.session.loggedIn) {
+        ejs.renderFile('views/main.ejs', { app: config.appconfig, err: req.app.locals, user: req.session }, (err, data) => {
+            res.send(data)
+        });
+    } else {
+        res.redirect('/');
+    }
+});
+
+router.get('/profil', (req, res) => {
+    if (req.session.loggedIn) {
+        ejs.renderFile('views/profil.ejs', { app: config.appconfig, user: req.session }, (err, data) => {
+            res.send(data)
+        });
+    } else {
+        res.redirect('/');
+    }
+});
+
+router.get('/passmod', (req, res) => {
+    if (req.session.loggedIn) {
+        ejs.renderFile('views/passmod.ejs', { app: config.appconfig, err: req.app.locals, user: req.session }, (err, data) => {
+            res.send(data)
+        });
+    } else {
+        res.redirect('/');
+    }
+});
+
+router.get('/logout', (req, res) => {
+    req.session.loggedIn = false;
+    req.session.loggedUserID = null;
+    req.session.loggedUser = null;
+    req.session.loggedUserMail = null;
+    ejs.renderFile('views/index.ejs', { app: config.appconfig }, (err, data) => {
+        res.send(data)
+    });
+});
+
 module.exports = router;

@@ -1,0 +1,32 @@
+<%- include('header') %>
+<div class="container">
+    <%- include('title') %>
+
+    <div class="row">
+        <aside class="col-md-4">
+            <h3>
+                <%= user.loggedUser %>
+            </h3>
+            <%- include('profilnav') %>
+        </aside>
+        <section class="col-md-8">
+            <form action="/users/passmod" method="post" class="col-lg-8 col-xl-6">
+                <div class="mb-3">
+                    <label for="oldpass" class="form-label">Jelenlegi jelszó</label>
+                    <input type="password" class="form-control" name="oldpass">
+                </div>
+                <div class="mb-3">
+                    <label for="newpass1" class="form-label">Új jelszó</label>
+                    <input type="password" class="form-control" name="newpass1">
+                </div>
+                <div class="mb-3">
+                    <label for="newpass2" class="form-label">Új jelszó mégegyszer</label>
+                    <input type="password" class="form-control" name="newpass2">
+                </div>
+                <button type="submit" class="btn btn-success mb-3">Jelszó megváltoztatása</button>
+            </form>
+        </section>
+    </div>
+
+
+</div>
