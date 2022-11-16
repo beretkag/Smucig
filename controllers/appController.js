@@ -13,4 +13,10 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/reg', (req, res) => {
+    ejs.renderFile('views/registration.ejs', { app: config.appconfig }, (err, data) => {
+        req.app.locals.isMessage = false;
+        res.send(data)
+    });
+});
 module.exports = router;

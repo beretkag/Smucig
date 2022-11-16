@@ -14,19 +14,13 @@ router.post('/login', (req, res) => {
     }
 
     if (userdata.usermail == '' || userdata.userpass == '') {
-        req.app.locals.message = 'Some requested fields are empty!';
-        req.app.locals.messagetype = 'danger';
         res.redirect('/');
     } else {
         pool.query(`SELECT * FROM users WHERE email=? AND passwd=?`, [userdata.usermail, sha1(userdata.userpass)], (err, results) => {
             if (results.length == 0) {
-                req.app.locals.message = 'This account is not exits!';
-                req.app.locals.messagetype = 'danger';
                 res.redirect('/');
             } else {
                 if (results[0].status == 0) {
-                    req.app.locals.message = 'This account is banned!';
-                    req.app.locals.messagetype = 'danger';
                     res.redirect('/');
                 } else {
                     req.session.loggedIn = true;
