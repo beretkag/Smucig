@@ -14,7 +14,7 @@
                 <div class="col-12">
                     <label for="newmail" class="form-label">E-mail cím</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" disabled name="newmail" value="<%= user.loggedUserMail %>" id="newmail">
+                        <input type="text" class="form-control" disabled value="<%= user.loggedUserMail %>"  id="newmail" name="newmail">
                         <div class="btn input-group-text configBtn" id="emailBtn">
                             <i class="bi bi-pencil-square" id="emailEditIkon"></i>
                             <i class="bi bi-x-circle d-none" id="emailCancel"></i>
@@ -25,7 +25,7 @@
                   <div class="col-12">
                     <label for="newmname" class="form-label">Felhasználónév</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" disabled name="newname" value="<%= user.loggedUser %>" id="newname">
+                        <input type="text" class="form-control" disabled value="<%= user.loggedUser %>" id="newname" name="newname">
                         <div class="btn input-group-text configBtn" id="nameBtn">
                             <i class="bi bi-pencil-square" id="nameEditIkon"></i>
                             <i class="bi bi-x-circle d-none" id="nameCancel"></i>

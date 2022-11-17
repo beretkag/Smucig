@@ -64,6 +64,38 @@ router.post('/passmod', (req, res) => {
     }
 });
 
+router.post('/profilmod', (req, res) => {
+    let data = {
+        newmail: req.body.newmail,
+        newname: req.body.newname
+    }
+    if (data.newmail == null) {
+        data.newmail = req.session.loggedUserMail;
+    }
+    if (data.newname == null) {
+        data.newname = req.session.loggedUser;
+    }
+    if (data.newmail == '' || data.newname == '' || (data.newmail == req.session.loggedUserMail && data.newname == req.session.loggedUser)) {
+        res.redirect('/profil');
+    } else {
+        pool.query(`SELECT ID FROM users WHERE name=? OR email=?`, [data.newname, data.newmail], (err, results) => {
+            var mehet = true;
+            for (let i = 0; i < results.length; i++) {
+                if (results[i].ID != req.session.loggedUserID) {
+                    mehet = false
+                    res.redirect('/profil');
+                }
+            }
+            pool.query(`UPDATE users SET name=?, email=? WHERE ID=?`, [data.newname, data.newmail, req.session.loggedUserID], (err) => {
+                req.session.loggedUser = data.newname;
+                req.session.loggedUserMail = data.newmail;
+                res.redirect('/profil');
+            });
+        });
+    }
+});
+
+
 router.post('/reg', (req, res) => {
     let userdata = {
         username: req.body.username,

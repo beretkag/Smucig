@@ -1,0 +1,40 @@
+<%- include('header') %>
+<div class="container">
+    <%- include('title') %>
+
+    <div class="row">
+        <aside class="col-md-4">
+            <h3>
+                <%= user.loggedUser %>
+            </h3>
+            <%- include('moneynav') %>
+        </aside>
+        <section class="col-md-8">
+            <h4>
+                Kiadás Rögzítése
+            </h4>
+            <form action="/filleres/expenditure" method="post" class="col-lg-8 col-xl-6">
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Összeg (Ft)</label>
+                    <input type="number" class="form-control" name="amount" min="0" step="1000" value="5000">
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Dátum</label>
+                    <input type="date" class="form-control" name="date" max="<%= toDay %>" value="<%= toDay %>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="type">Kiadás Típus</label>
+                    <select class="form-select" name="type">
+                        <% for (let i=0; i < types.length; i++) { %>
+                            <option value="<%= types[i].ID %>"><%= types[i].type %></option>
+                            <% } %>
+                    </select>
+                  </div>
+                <button type="submit" class="btn btn-success mb-3">Kiadás rögzítése</button>
+            </form>
+        </section>
+    </div>
+
+
+</div>
