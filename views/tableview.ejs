@@ -1,13 +1,33 @@
-<table>
+<% if (table.length > 0) { %>
+<table class="table">
     <thead>
         <tr>
             <th>#</th>
             <th>Dátum:</th>
             <th>Típus</th>
-            <th>Összeg</th>
+            <th>Összeg (Ft)</th>
         </tr>
     </thead>
     <tbody>
-        
+        <% for (let i=0; i < table.length; i++) { %>
+            <tr>
+                <td><%= i+1 %>.</td>
+                <td><%= moment(table[i].date).format('YYYY-MM-DD') %></td>
+                <td><%= table[i].name %></td>
+                <td>
+                    <% if (table[i].type == 0) { %>
+                        +
+                        <% } else {%>
+                            -
+                        <% } %>
+                    <%= table[i].amount %>
+                </td>
+            </tr>
+        <% } %>
     </tbody>
 </table>
+<% } else { %>
+    <p>Még nincs rögzített tranzakció</p>
+<% } %>
+
+        

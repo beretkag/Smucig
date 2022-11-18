@@ -11,12 +11,12 @@ router.post('/income', (req, res) => {
     let data = {
         amount: req.body.amount,
         date: moment(req.body.date).format('YYYY-MM-DD'),
-        type: req.body.type
+        transtypeID: req.body.transtypeID
     };
     if (data.amount <= 0 || data.amount == '' || data.date == '') {
         res.redirect('/income');
     } else {
-        pool.query(`INSERT INTO records VALUES(null, ?, 0, ?, ?, null, ?)`, [req.session.loggedUserID, data.amount, data.type, data.date], (err) => {
+        pool.query(`INSERT INTO records VALUES(null, ?, 0, ?, ?, ?)`, [req.session.loggedUserID, data.amount, data.date, data.transtypeID ], (err) => {
             if (err) {
                 console.log(err.sqlMessage);
             }
@@ -29,12 +29,12 @@ router.post('/expenditure', (req, res) => {
     let data = {
         amount: req.body.amount,
         date: moment(req.body.date).format('YYYY-MM-DD'),
-        type: req.body.type
+        transtypeID: req.body.transtypeID
     };
     if (data.amount <= 0 || data.amount == '' || data.date == '') {
         res.redirect('/income');
     } else {
-        pool.query(`INSERT INTO records VALUES(null, ?, 1, ?, null, ?, ?)`, [req.session.loggedUserID, data.amount, data.type, data.date], (err) => {
+        pool.query(`INSERT INTO records VALUES(null, ?, 1, ?, ?, ?)`, [req.session.loggedUserID, data.amount, data.date, data.transtypeID], (err) => {
             if (err) {
                 console.log(err.sqlMessage);
             }

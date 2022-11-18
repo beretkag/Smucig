@@ -25,9 +25,9 @@
 
                 <div class="mb-3">
                     <label for="type">Kiadás Típus</label>
-                    <select class="form-select" name="type">
+                    <select class="form-select" name="transtypeID">
                         <% for (let i=0; i < types.length; i++) { %>
-                            <option value="<%= types[i].ID %>"><%= types[i].type %></option>
+                            <option value="<%= types[i].ID %>"><%= types[i].name %></option>
                             <% } %>
                     </select>
                   </div>
@@ -35,6 +35,9 @@
             </form>
         </section>
     </div>
-
+    <hr>
+    <div>
+        <%- include('tableview') %>
+    </div>
 
 </div>

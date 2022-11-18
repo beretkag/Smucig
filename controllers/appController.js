@@ -52,17 +52,19 @@ router.get('/passmod', (req, res) => {
 
 router.get('/income', (req, res) => {
     if (req.session.loggedIn) {
-        pool.query(`SELECT * FROM incometype`, (err, results) => {
+        pool.query(`SELECT * FROM transactiontype WHERE type=0`, (err, results) => {
             if (err) {
                 res.send(err.message);
             }
             else {
-                ejs.renderFile('views/income.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results }, (err, data) => {
-                    if (err) {
-                        res.send(err.message);
-                    } else {
-                        res.send(data)
-                    }
+                pool.query(`SELECT records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ?  ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
+                    ejs.renderFile('views/income.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment }, (err, data) => {
+                        if (err) {
+                            res.send(err.message);
+                        } else {
+                            res.send(data)
+                        }
+                    });
                 });
             }
         })
@@ -73,15 +75,13 @@ router.get('/income', (req, res) => {
 
 router.get('/expenditure', (req, res) => {
     if (req.session.loggedIn) {
-        pool.query(`SELECT * FROM expendituretype`, (err, results) => {
+        pool.query(`SELECT * FROM transactiontype WHERE type=1`, (err, results) => {
             if (err) {
                 res.send(err.message);
             }
             else {
-                pool.query(`SELECT records.date, incometype.type, records.amount
-                FROM records INNER JOIN users on records.userID = users.ID INNER JOIN incometype on incometypeID = incometype.ID
-                WHERE userID=?`, [req.session.loggedUserID], (err, results_2) => {
-                    ejs.renderFile('views/expenditure.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: results_2 }, (err, data) => {
+                pool.query(`SELECT records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ? ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
+                    ejs.renderFile('views/expenditure.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment }, (err, data) => {
                         if (err) {
                             res.send(err.message);
                         } else {
@@ -90,7 +90,7 @@ router.get('/expenditure', (req, res) => {
                     }); 
                 });
             }
-        })
+        });
     } else {
         res.redirect('/');
     }

@@ -111,13 +111,13 @@ router.post('/reg', (req, res) => {
         } else {
             let pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
             if (!userdata.userpass1.match(pattern)) {
-                res.redirect('/passmod');
+                res.redirect('/reg');
             } else {
                 pool.query(`SELECT ID FROM users WHERE email=?`, [userdata.usermail], (err, results) => {
                     if (results.length > 0) {
                         res.redirect('/reg');
                     } else {
-                        pool.query(`INSERT INTO users VALUES(null, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1)`, [userdata.username, userdata.usermail, sha1(userdata.userpass1)], (err) => {
+                        pool.query(`INSERT INTO users VALUES(null, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`, [userdata.username, userdata.usermail, sha1(userdata.userpass1)], (err) => {
                             if (err) {
                                 console.log(err.sqlMessage);
                             }
