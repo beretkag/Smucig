@@ -24,8 +24,20 @@ router.post('/login', (req, res) => {
                 req.session.loggedUserID = results[0].ID;
                 req.session.loggedUser = results[0].name;
                 req.session.loggedUserMail = results[0].email;
+                req.session.loggedUserStartCapital = results[0].startcapital;
                 res.redirect('/main');
             }
+        });
+    }
+});
+
+router.post('/capitalmod/:from', (req, res)=>{
+    if (req.body.startcapital == req.session.loggedUserStartCapital || req.body.startcapital < 0) {
+        res.redirect(`/${req.params.from}`);
+    } else {
+        pool.query(`UPDATE users SET startcapital=? WHERE ID=?`, [req.body.startcapital, req.session.loggedUserID], (err) => {
+            req.session.loggedUserStartCapital = req.body.startcapital;
+            res.redirect(`/${req.params.from}`);
         });
     }
 });
@@ -117,7 +129,7 @@ router.post('/reg', (req, res) => {
                     if (results.length > 0) {
                         res.redirect('/reg');
                     } else {
-                        pool.query(`INSERT INTO users VALUES(null, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`, [userdata.username, userdata.usermail, sha1(userdata.userpass1)], (err) => {
+                        pool.query(`INSERT INTO users VALUES(null, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0)`, [userdata.username, userdata.usermail, sha1(userdata.userpass1)], (err) => {
                             if (err) {
                                 console.log(err.sqlMessage);
                             }

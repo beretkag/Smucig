@@ -1,5 +1,7 @@
 body {
-    background-color: rgb(100, 100, 100);
+    background-color: #19ad26;
+    background: linear-gradient(180deg, rgba(0,209,255,1) 0%, rgba(25,173,38,1) 100%);
+    min-height: 100vh;
 }
 
 .container {
@@ -19,6 +21,7 @@ header {
     line-height: 80px;
     color: white;
     text-shadow: 0 0 3px black;
+    border-radius: 30px;
 }
 
 footer {
@@ -114,4 +117,14 @@ section {
 .configBtn:hover{
     background-color: #c4c4c4 !important;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 

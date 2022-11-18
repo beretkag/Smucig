@@ -58,7 +58,15 @@ router.get('/income', (req, res) => {
             }
             else {
                 pool.query(`SELECT records.ID, records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ?  ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
-                    ejs.renderFile('views/income.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment, from: 'income' }, (err, data) => {
+                    let sum = 0;
+                    tabledata.forEach(record => {
+                        if (record.type == 0) {
+                            sum += record.amount;
+                        } else {
+                            sum -= record.amount;
+                        }
+                    })
+                    ejs.renderFile('views/income.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment, from: 'income', sum: sum }, (err, data) => {
                         if (err) {
                             res.send(err.message);
                         } else {
@@ -81,7 +89,15 @@ router.get('/expenditure', (req, res) => {
             }
             else {
                 pool.query(`SELECT records.ID, records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ? ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
-                    ejs.renderFile('views/expenditure.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment, from: 'expenditure' }, (err, data) => {
+                    let sum = 0;
+                    tabledata.forEach(record => {
+                        if (record.type == 0) {
+                            sum += record.amount;
+                        } else {
+                            sum -= record.amount;
+                        }
+                    })
+                    ejs.renderFile('views/expenditure.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment, from: 'expenditure', sum: sum }, (err, data) => {
                         if (err) {
                             res.send(err.message);
                         } else {

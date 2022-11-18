@@ -1,0 +1,22 @@
+<section class="col-md-4 d-flex justify-content-end">
+    <form action="/users/capitalmod/<%= from %>" method="post">
+        <div class="col-12">
+            <label for="startcapital" class="form-label">Kezdő tőke (Ft)</label>
+            <div class="input-group">
+                <input type="number" class="form-control" disabled value="<%= user.loggedUserStartCapital %>"  id="startcapital" name="startcapital" min="0">
+
+                <div class="btn input-group-text configBtn d-none" id="cancelBtn">
+                    <i class="bi bi-x-circle" id="emailCancel"></i>
+                </div>
+                <button class="btn input-group-text configBtn d-none" id="capitalBtn">
+                    <i class="bi bi-check-lg"></i>
+                </button>
+                <div class="btn input-group-text configBtn" id="configBtn">
+                    <div>
+                        &nbsp&nbsp&nbsp&nbsp&nbsp<i class="bi bi-pencil-square"></i>&nbsp&nbsp&nbsp&nbsp
+                    </div>
+                </div>
+            </div>
+          </div>
+    </form>
+</section>

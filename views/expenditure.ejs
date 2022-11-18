@@ -9,14 +9,14 @@
             </h3>
             <%- include('moneynav') %>
         </aside>
-        <section class="col-md-8">
+        <section class="col-md-4">
             <h4>
                 Kiadás Rögzítése
             </h4>
-            <form action="/filleres/expenditure" method="post" class="col-lg-8 col-xl-6">
+            <form action="/filleres/expenditure" method="post">
                 <div class="mb-3">
                     <label for="amount" class="form-label">Összeg (Ft)</label>
-                    <input type="number" class="form-control" name="amount" min="0" step="1000" value="5000">
+                    <input type="number" class="form-control" name="amount" min="0" value="5000">
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">Dátum</label>
@@ -34,12 +34,15 @@
                 <button type="submit" class="btn btn-success mb-3">Kiadás rögzítése</button>
             </form>
         </section>
+        <%- include('capital') %>
     </div>
     <hr>
+    <%- include('egyenleg') %>
+    <br>
     <div>
         <%- include('tableview') %>
     </div>
 
     <%- include('footer') %>
-
+    <script src="../assets/js/startcapital.js"></script>
 </div>
