@@ -1,4 +1,6 @@
 <% if (table.length > 0) { %>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -6,6 +8,7 @@
             <th>Dátum:</th>
             <th>Típus</th>
             <th>Összeg (Ft)</th>
+            <th>Művelet</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +25,11 @@
                         <% } %>
                     <%= table[i].amount %>
                 </td>
+                <td>
+                    <form action="filleres/delete/<%= from %>/<%= table[i].ID %>" method="post">
+                        <button type="success" class="btn btn-secondary"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
             </tr>
         <% } %>
     </tbody>
@@ -29,5 +37,7 @@
 <% } else { %>
     <p>Még nincs rögzített tranzakció</p>
 <% } %>
+
+
 
         

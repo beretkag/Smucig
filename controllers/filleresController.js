@@ -43,6 +43,14 @@ router.post('/expenditure', (req, res) => {
     }
 });
 
+router.post('/delete/:from/:id', (req, res) =>{
+    var id = req.params.id;
+    var from = req.params.from;
+    pool.query(`DELETE FROM records WHERE ID=?`, [id], (err) =>{
+        res.redirect(`/${from}`);
+    })
+});
+
 
 
 

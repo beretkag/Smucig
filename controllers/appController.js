@@ -57,8 +57,8 @@ router.get('/income', (req, res) => {
                 res.send(err.message);
             }
             else {
-                pool.query(`SELECT records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ?  ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
-                    ejs.renderFile('views/income.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment }, (err, data) => {
+                pool.query(`SELECT records.ID, records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ?  ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
+                    ejs.renderFile('views/income.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment, from: 'income' }, (err, data) => {
                         if (err) {
                             res.send(err.message);
                         } else {
@@ -80,8 +80,8 @@ router.get('/expenditure', (req, res) => {
                 res.send(err.message);
             }
             else {
-                pool.query(`SELECT records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ? ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
-                    ejs.renderFile('views/expenditure.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment }, (err, data) => {
+                pool.query(`SELECT records.ID, records.date, transactiontype.name, records.type, records.amount FROM records INNER JOIN transactiontype on transactiontype.ID = records.transactiontypeID WHERE records.userID = ? ORDER BY records.date DESC`, [req.session.loggedUserID], (err, tabledata) => {
+                    ejs.renderFile('views/expenditure.ejs', { app: config.appconfig, user: req.session, toDay: moment(new Date()).format('YYYY-MM-DD'), types: results, table: tabledata, moment: moment, from: 'expenditure' }, (err, data) => {
                         if (err) {
                             res.send(err.message);
                         } else {
