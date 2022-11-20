@@ -50,6 +50,25 @@ router.get('/passmod', (req, res) => {
     }
 });
 
+router.get('/linechart', (req, res) => {
+    if (req.session.loggedIn) {
+        pool.query(`SELECT users.startcapital, records.date, records.amount, records.type FROM records INNER JOIN users ON users.ID = records.userID WHERE userID = ?  ORDER BY records.date DESC`, [req.session.loggedUserID], (err, results) => {
+            if (err) {
+                res.send(err.message);
+            }
+            ejs.renderFile('views/linechart.ejs', { app: config.appconfig, user: req.session, query: results, moment: moment }, (err, data) => {
+                if (err) {
+                    res.send(err.message);
+                } else {
+                    res.send(data)
+                }
+            });
+        })
+    } else {
+        res.redirect('/');
+    }
+});
+
 router.get('/income', (req, res) => {
     if (req.session.loggedIn) {
         pool.query(`SELECT * FROM transactiontype WHERE type=0`, (err, results) => {

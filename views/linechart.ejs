@@ -1,0 +1,104 @@
+<%- include('header') %>
+
+<body>
+    <div class="container">
+
+        <%- include('title') %>
+        <div class="d-flex justify-content-center">
+            <div style="width: 50vw;">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        
+        <%- include('footer') %>
+    </div>
+    <script src="/chart.js"></script>
+<script>
+//Labels
+
+let labels = []
+<%for (let i = 30; i => 0; i--) {%>
+  <%let date = new Date()%>
+  <%let previous = new Date().setDate(new Date().getDate()-1)%>
+    labels.push(<%= moment(previous).format('YYYY-MM-DD') %>)
+<%}%>
+
+//Datas
+let datapoints = [];
+for (let i = 0; i <= labels.length; i++) {
+  datapoints.push(EddigiOsszeg(i+1));
+}
+
+function EddigiOsszeg(meddig){
+  let osszeg = Number(<%= user.loggedUserStartCapital %>)
+  for (let i = 0; i < meddig; i++) {
+    <% for( let i = 0; i < query.length; i++ ) { %>
+      if (labels[i] == <%= moment(query[i].date).format('YYYY-MM-DD') %>) {
+        <% if (query[i].type == 0) { %>
+          osszeg += Number(<%= query[i].amount %>)
+      <% } else { %>
+        osszeg -= Number(<%= query[i].amount %>)
+      <% } %>
+      }
+    <% } %> 
+  }
+  return osszeg
+}
+
+
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Egyenleg',
+      data: datapoints,
+      borderColor: '#ad192a',
+      fill: true,
+      cubicInterpolationMode: 'monotone',
+      tension: 0.4
+    }
+  ]
+};
+
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Chart.js Line Chart - Cubic interpolation mode'
+        },
+      },
+      interaction: {
+        intersect: false,
+      },
+      scales: {
+        x: {
+          display: true,
+          title: {
+            display: true
+          }
+        },
+        y: {
+          display: true,
+          title: {
+            display: true,
+            text: 'Value'
+          },
+          suggestedMin: -10,
+          suggestedMax: 200
+        }
+      }
+    },
+  };
+
+  let myChart = document.getElementById('myChart');
+  let _Chart = new Chart(myChart, config);
+</script>
+
+
+</body>
+
+</html>

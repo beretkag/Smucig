@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('./config.js');
 const app = express();
 
+
 const appController = require('./controllers/appController.js');
 const userController = require('./controllers/userController.js');
 const filleresController = require('./controllers/filleresController.js');
@@ -15,6 +16,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use('/chart.js',express.static(path.join(__dirname,'./node_modules/chart.js/dist/chart.js')));
 app.use('/assets', express.static(path.join(__dirname + '/assets')));
 app.use('/views', express.static(path.join(__dirname + '/views')));
 
