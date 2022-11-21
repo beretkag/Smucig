@@ -69,6 +69,22 @@ router.get('/linechart', (req, res) => {
     }
 });
 
+router.get('/piechart', (req, res) => {
+    if (req.session.loggedIn) {
+        pool.query(`SELECT transactiontype.type, transactiontype.name, SUM(records.amount) as 'darab' FROM transactiontype INNER JOIN records on records.transactiontypeID = transactiontype.ID INNER JOIN users on records.userID = users.ID WHERE users.ID = ? GROUP BY transactiontype.ID`, [req.session.loggedUserID], (err, results) => {
+            ejs.renderFile('views/piechart.ejs', { app: config.appconfig, user: req.session, adathalmaz: results }, (err, data) => {
+                if (err) {
+                    res.send(err.message);
+                } else {
+                    res.send(data)
+                }
+            });
+        })
+    } else {
+        res.redirect('/');
+    }
+})
+
 router.get('/income', (req, res) => {
     if (req.session.loggedIn) {
         pool.query(`SELECT * FROM transactiontype WHERE type=0`, (err, results) => {

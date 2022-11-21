@@ -5,8 +5,11 @@
     <div class="container">
 
         <%- include('title') %>
+
+        <%- include('chartnav') %>
+
         <div class="d-flex justify-content-center">
-            <div style="width: 50vw;">
+            <div style="width: 60vw;">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
@@ -29,7 +32,7 @@ let _query = [];
 
 let labels = [];
 for (let i = 0; i < 31; i++) {
-  let previous = new Date().setDate(new Date().getDate()-(31-i))
+  let previous = new Date().setDate(new Date().getDate()-(31-i-1))
   labels.push(moment(previous).format('YYYY-MM-DD'));
 }
 //Datas

@@ -1,0 +1,117 @@
+<%- include('header') %>
+
+
+<body>
+    <div class="container">
+
+        <%- include('title') %>
+
+        <%- include('chartnav') %>
+
+        <div class="d-flex justify-content-around mb-3">
+            <div style="width: 30vw;">
+                <canvas id="incomeChart"></canvas>
+            </div>
+            <div style="width: 30vw;">
+                <canvas id="expenditureChart"></canvas>
+            </div>
+
+        </div>
+        
+        <%- include('footer') %>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="/chart.js"></script>
+<script>
+
+let _query = [];
+
+<% adathalmaz.forEach(element => { %>
+ _query.push({
+    type: Number(<%= element.type %>),
+    name: '<%= element.name %>',
+    amount: Number(<%= element.darab %>)
+ })
+ <% }) %>
+ 
+let expenditurelabels = [];
+let expendituredatapoints = [];
+let inclabels = [];
+let incdatapoints = [];
+_query.forEach(element => {
+    if (element.type == 1) {
+        expenditurelabels.push(element.name)
+        expendituredatapoints.push(element.amount);
+    } else {
+        inclabels.push(element.name);
+        incdatapoints.push(element.amount);
+    }
+});
+
+
+const expendituredata = {
+  labels: expenditurelabels,
+  datasets: [
+    {
+      label: 'Kiadások',
+      data: expendituredatapoints,
+      backgroundColor: ['#ad192a', '#1925ad', '#8019ad', '#0ec62b', '#c3c60e', '#c60e9b', '#0e89c6', '#ff8f00', '#0003ff', '#00f7ff']
+    }
+  ]
+};
+
+
+const expenditureconfig = {
+  type: 'pie',
+  data: expendituredata,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+      },
+      title: {
+        display: true,
+        text: 'Kiadások'
+      }
+    }
+  },
+};
+
+const incomedata = {
+  labels: inclabels,
+  datasets: [
+    {
+      label: 'Bevételek',
+      data: incdatapoints,
+      backgroundColor: ['#ad192a', '#1925ad', '#8019ad', '#0ec62b', '#c3c60e', '#c60e9b', '#0e89c6', '#ff8f00', '#0003ff', '#00f7ff']
+    }
+  ]
+};
+
+
+const incomeconfig = {
+  type: 'pie',
+  data: incomedata,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'left',
+      },
+      title: {
+        display: true,
+        text: 'Bevételek'
+      }
+    }
+  },
+};
+
+    let incomeChart = new Chart(document.getElementById('incomeChart'), incomeconfig);
+    let expenditureChart = new Chart(document.getElementById('expenditureChart'), expenditureconfig);
+</script>
+
+
+</body>
+
+</html>
