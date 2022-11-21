@@ -1,5 +1,6 @@
 <%- include('header') %>
 
+
 <body>
     <div class="container">
 
@@ -12,45 +13,54 @@
         
         <%- include('footer') %>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="/chart.js"></script>
 <script>
+
+let _query = [];
+<% adathalmaz.forEach(element => { %>
+  _query.push({
+    date: moment(new Date('<%= element.date %>')).format('YYYY-MM-DD'),
+    amount: Number(<%= element.amount %>),
+    type: Number(<%= element.type %>)
+  })
+<% }) %>
 //Labels
 
-let labels = []
-<%for (let i = 30; i => 0; i--) {%>
-  <%let date = new Date()%>
-  <%let previous = new Date().setDate(new Date().getDate()-1)%>
-    labels.push(<%= moment(previous).format('YYYY-MM-DD') %>)
-<%}%>
-
+let labels = [];
+for (let i = 0; i < 31; i++) {
+  let previous = new Date().setDate(new Date().getDate()-(31-i))
+  labels.push(moment(previous).format('YYYY-MM-DD'));
+}
 //Datas
+
 let datapoints = [];
-for (let i = 0; i <= labels.length; i++) {
-  datapoints.push(EddigiOsszeg(i+1));
+for (let i = 0; i < labels.length; i++) {
+  datapoints.push(EddigiOsszeg(i));
 }
 
 function EddigiOsszeg(meddig){
-  let osszeg = Number(<%= user.loggedUserStartCapital %>)
+  let osszeg = Number(<%= user.loggedUserStartCapital %>);
   for (let i = 0; i < meddig; i++) {
-    <% for( let i = 0; i < query.length; i++ ) { %>
-      if (labels[i] == <%= moment(query[i].date).format('YYYY-MM-DD') %>) {
-        <% if (query[i].type == 0) { %>
-          osszeg += Number(<%= query[i].amount %>)
-      <% } else { %>
-        osszeg -= Number(<%= query[i].amount %>)
-      <% } %>
+    for (let j = 0; j < _query.length; j++) {
+      if (labels[i] == moment(_query[j].date).format('YYYY-MM-DD')) {
+        if (_query[j].type == 0) {
+          osszeg += Number(_query[j].amount);
+        } else {
+          osszeg -= Number(_query[j].amount);
+        }
       }
-    <% } %> 
+    }
   }
-  return osszeg
+  return osszeg;
 }
-
 
 const data = {
   labels: labels,
   datasets: [
     {
-      label: 'Egyenleg',
+      label: '',
+      display: false  ,
       data: datapoints,
       borderColor: '#ad192a',
       fill: true,
@@ -68,7 +78,7 @@ const config = {
       plugins: {
         title: {
           display: true,
-          text: 'Chart.js Line Chart - Cubic interpolation mode'
+          text: '<%= user.loggedUser %> Egyenlegének alakulása'
         },
       },
       interaction: {
@@ -85,7 +95,7 @@ const config = {
           display: true,
           title: {
             display: true,
-            text: 'Value'
+            text: 'Egyenleg'
           },
           suggestedMin: -10,
           suggestedMax: 200

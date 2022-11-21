@@ -13,7 +13,7 @@ router.post('/income', (req, res) => {
         date: moment(req.body.date).format('YYYY-MM-DD'),
         transtypeID: req.body.transtypeID
     };
-    if (data.amount <= 0 || data.amount == '' || data.date == '') {
+    if (data.amount <= 0 || data.amount == '' || data.date == '' || data.date == null) {
         res.redirect('/income');
     } else {
         pool.query(`INSERT INTO records VALUES(null, ?, 0, ?, ?, ?)`, [req.session.loggedUserID, data.amount, data.date, data.transtypeID ], (err) => {
@@ -31,7 +31,7 @@ router.post('/expenditure', (req, res) => {
         date: moment(req.body.date).format('YYYY-MM-DD'),
         transtypeID: req.body.transtypeID
     };
-    if (data.amount <= 0 || data.amount == '' || data.date == '') {
+    if (data.amount <= 0 || data.amount == '' || data.date == '' || data.date == null) {
         res.redirect('/income');
     } else {
         pool.query(`INSERT INTO records VALUES(null, ?, 1, ?, ?, ?)`, [req.session.loggedUserID, data.amount, data.date, data.transtypeID], (err) => {
