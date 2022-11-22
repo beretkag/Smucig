@@ -8,12 +8,33 @@
 
         <%- include('chartnav') %>
 
-        <div class="d-flex justify-content-around mb-3">
+        <div class="d-flex justify-content-around align-items-center mb-3">
+
             <div style="width: 30vw;">
-                <canvas id="incomeChart"></canvas>
+              <%let inn = false%>
+              <% for( let i = 0; i < adathalmaz.length; i++ ) { %>
+                <% if (adathalmaz[i].type == 0) { %>
+                  <canvas id="incomeChart"></canvas>
+                  <%inn = true%>
+                  <% break %>
+                <% } %>
+              <% } %>
+              <% if (!inn) { %>
+                <p>Még nincs rögzített Bevételed.</p>
+              <% } %>
             </div>
             <div style="width: 30vw;">
-                <canvas id="expenditureChart"></canvas>
+              <%let out = false%>
+              <% for( let i = 0; i < adathalmaz.length; i++ ) { %>
+                <% if (adathalmaz[i].type == 1) { %>
+                  <canvas id="expenditureChart"></canvas>
+                  <%out = true%>
+                  <%break%>
+                  <% } %>
+              <% } %>
+              <% if (!out) { %>
+              <p>Még nincs rögzített Kiadásod.</p>
+              <% } %>
             </div>
 
         </div>
